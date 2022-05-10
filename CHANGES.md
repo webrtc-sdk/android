@@ -1,9 +1,16 @@
 # Changelog
 
 --------------------------------------------
-[97.4692.01] - 2021.02.15
+[97.4692.02] - 2022.05.10
+
+* Pre-compiled M97 97.4692.02.
+* Added `VideoTrack.shouldReceive()` and `setShouldReceive(boolean)`
+* Built from https://github.com/webrtc-sdk/webrtc/commit/415fbe5e175b7f5815d497c7563eb03ee6687fbe
+
+[97.4692.01] - 2022.02.15
 
 * Upgrade to WebRTC-SDK M97.4692.01
+* Built from https://github.com/webrtc-sdk/webrtc/commit/8c7139f8e6fa19ddf2c91510c177a19746e1ded3
 
 --------------------------------------------
 [93.4577.01] - 2021.12.29

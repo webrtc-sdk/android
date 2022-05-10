@@ -22,6 +22,6 @@ Step 2. Add the dependency
 
 ```gradle
   dependencies {
-    implementation 'com.github.webrtc-sdk:android:97.4692.01'
+    implementation 'com.github.webrtc-sdk:android:97.4692.02'
   }
 ```
