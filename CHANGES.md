@@ -1,8 +1,14 @@
 # Changelog
 
 --------------------------------------------
+[97.4692.04] - 2022.05.18
+
+* Fix broken build.
+* Built from https://github.com/webrtc-sdk/webrtc/commit/59fde2a30cf5c409a1b5ef193f6e37392a02e1df
+
 [97.4692.03] - 2022.05.14
 
+* **Do not use, build is broken.**
 * Fix crash related to VideoRTPReceiver
 * Built from https://github.com/webrtc-sdk/webrtc/commit/da9f0586fcd4442071e3a7a6c36915599ce0f29a
 
