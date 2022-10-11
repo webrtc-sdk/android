@@ -1,9 +1,18 @@
 # Changelog
+
 --------------------------------------------
 
-[104.5112.01] - 2022.07.12
+[104.5112.03] - 2022.10.11
 
-* Upgrade to WebRTC-SDK M104.5112.01
+* Upgrade to WebRTC-SDK M104.5112.03
+* feat: Add getStats for RtpSender/RtpReceiver.
+* Added "stopped" RtpTransceiverDirection value
+
+Corresponds to https://github.com/webrtc-sdk/webrtc/commit/9dab54fd76cb5d0a1a10fe6168cb356f392c502f
+
+[104.5112.02] - 2022.07.12
+
+* Upgrade to WebRTC-SDK M104.5112.02
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/a828846eb98e404bf3b00c1abf3787f93171a39c
 
