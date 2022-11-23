@@ -2,6 +2,13 @@
 
 --------------------------------------------
 
+[104.5112.05] - 2022.11.23
+
+* Upgrade to WebRTC-SDK M104.5112.05
+* Fix simulcast when using hardware encoder on Android
+
+Corresponds to https://github.com/webrtc-sdk/webrtc/commit/baa0294c5e48e89887ad09a0fe6785c3aa9cc705
+
 [104.5112.03] - 2022.10.11
 
 * Upgrade to WebRTC-SDK M104.5112.03
@@ -10,9 +17,9 @@
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/9dab54fd76cb5d0a1a10fe6168cb356f392c502f
 
-[104.5112.02] - 2022.07.12
+[104.5112.01] - 2022.07.12
 
-* Upgrade to WebRTC-SDK M104.5112.02
+* Upgrade to WebRTC-SDK M104.5112.01
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/a828846eb98e404bf3b00c1abf3787f93171a39c
 
