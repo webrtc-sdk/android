@@ -1,6 +1,10 @@
 # Changelog
 
 --------------------------------------------
+[104.5112.06] - 2023.01.31
+
+* Upgrade to WebRTC-SDK M104.5112.06
+* feat: Expose setCodecPreferences/getCapabilities for android.
 
 [104.5112.05] - 2022.11.23
 
