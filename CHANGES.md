@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[104.5112.07] - 2023.02.02
+
+* Upgrade to WebRTC-SDK M104.5112.07
+* feat: Frame encryption for android.
+
 [104.5112.06] - 2023.01.31
 
 * Upgrade to WebRTC-SDK M104.5112.06
