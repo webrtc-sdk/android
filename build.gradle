@@ -49,6 +49,13 @@ def configurePom(pom) {
             distribution = POM_LICENCE_DIST
         }
     }
+
+    pom.developers {
+        developer {
+            id = POM_DEVELOPER_ID
+            name = POM_DEVELOPER_NAME
+        }
+    }
 }
 
 publishing {
@@ -73,6 +80,7 @@ publishing {
             artifact ("deploy/javadoc.jar") {
                 classifier 'javadoc'
             }
+            configurePom(pom)
         }
     }
 
