@@ -1,12 +1,10 @@
 name: Publish
 
 on:
-  workflow_dispatch:
   push:
     # only publish on version tags
     tags:
       - v*
-  pull_request:
 
 jobs:
   publish:
@@ -54,3 +52,6 @@ jobs:
 
     - name: Publish to sonatype
       run: ./gradlew publish
+
+    - name: Close and Release to maven
+      run: ./gradlew closeAndReleaseRepository
