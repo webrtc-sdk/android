@@ -28,7 +28,7 @@ jobs:
         distribution: 'adopt'
 
     - name: Download aar
-      run: downloadAar.sh
+      run: ./downloadAar.sh
 
     - name: Check aar exists
       run: test -f "libwebrtc.aar"
