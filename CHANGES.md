@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[104.5112.08] - 2023.03.30
+
+* Upgrade to WebRTC-SDK M104.5112.08
+* feat: Add key ratchet for FrameCryptor.
+
 [104.5112.07] - 2023.02.02
 
 * Upgrade to WebRTC-SDK M104.5112.07
