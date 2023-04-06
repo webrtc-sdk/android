@@ -4,18 +4,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
+        // classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
     }
 }
 apply plugin: "maven-publish"
-apply plugin: 'signing'
-apply plugin: 'io.codearte.nexus-staging'
+// apply plugin: 'signing'
+// apply plugin: 'io.codearte.nexus-staging'
 
-nexusStaging {
-    serverUrl = "https://s01.oss.sonatype.org/service/local/"
-    packageGroup = GROUP
-    stagingProfileId = "550fa82137976"
-}
+// nexusStaging {
+//     serverUrl = "https://s01.oss.sonatype.org/service/local/"
+//     packageGroup = GROUP
+//     stagingProfileId = "550fa82137976"
+// }
 
 def getReleaseRepositoryUrl() {
     return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
@@ -84,9 +84,9 @@ publishing {
         }
     }
 
-    signing {
-        publishing.publications.all { publication ->
-            sign publication
-        }
-    }
+    // signing {
+    //     publishing.publications.all { publication ->
+    //         sign publication
+    //     }
+    // }
 }
