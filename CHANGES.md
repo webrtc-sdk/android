@@ -1,6 +1,12 @@
 # Changelog
 
 --------------------------------------------
+[104.5112.10] - 2023.06.08
+
+* Upgrade to WebRTC-SDK M104.5112.10
+* fix frame drops for HW AndroidVideoDecoder,
+  please use WrappedVideoDecoderFactory instead of DefaultVideoDecoderFactory.
+
 [104.5112.09] - 2023.04.25
 
 * Upgrade to WebRTC-SDK M104.5112.09
