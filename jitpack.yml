@@ -1,7 +1,0 @@
-before_install:
-   - ./custom_setup.sh
-install:
-   - echo "Running a custom install command"
-   - true
-env:
-   MYVAR: "custom environment variable"
