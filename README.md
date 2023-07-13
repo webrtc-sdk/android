@@ -10,6 +10,6 @@ This library is hosted on Maven Central. To include this library in your project
 
 ```gradle
   dependencies {
-    implementation 'io.github.webrtc-sdk:android:114.5735.01'
+    implementation 'io.github.webrtc-sdk:android:114.5735.02'
   }
 ```
