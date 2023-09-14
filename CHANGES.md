@@ -1,6 +1,16 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.03] - 2023.09.14
+
+* Upgrade to WebRTC-SDK M114.5735.03
+* Improve e2ee, add setSharedKey to KeyProvider.
+* Expose audio sample buffers for Android.
+* Add scalabilityMode support for AV1/VP9.
+* add failure tolerance for framecryptor.
+
+Corresponds to https://github.com/webrtc-sdk/webrtc/commit/2ab452f5c9427dc97eb8ec2db2023cefef816e18
+
 [114.5735.02] - 2023.07.13
 
 * Upgrade to WebRTC-SDK M114.5735.02
