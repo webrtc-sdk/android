@@ -1,6 +1,12 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.04] - 2023.09.20
+
+* Upgrade to WebRTC-SDK M114.5735.04
+* fix h264 freeze on E2EE.
+* Send frame cryptor events from signaling-thread.
+
 [114.5735.03] - 2023.09.14
 
 * Upgrade to WebRTC-SDK M114.5735.03
