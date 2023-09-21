@@ -1,6 +1,13 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.05] - 2023.09.21
+
+* Upgrade to WebRTC-SDK M114.5735.05
+* Use independent threads to process frame encryption/decryption
+* Correct handle SIF frame
+* Fix a fault tolerance judgment failure
+
 [114.5735.04] - 2023.09.20
 
 * Upgrade to WebRTC-SDK M114.5735.04
