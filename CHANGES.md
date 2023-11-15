@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.06] - 2023.11.15
+
+* Upgrade to WebRTC-SDK M114.5735.06
+* Add ExternalAudioProcessing support for Android.
+
 [114.5735.05] - 2023.09.21
 
 * Upgrade to WebRTC-SDK M114.5735.05
