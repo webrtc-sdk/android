@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 # Get VERSION_NAME from gradle.properties
 VERSION=`grep -o 'VERSION_NAME=.*' gradle.properties | cut -f2- -d=`

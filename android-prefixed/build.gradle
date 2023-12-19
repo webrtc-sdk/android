@@ -1,0 +1,118 @@
+plugins {
+    id 'signing'
+    id 'com.android.library'
+    id 'com.kezong.fat-aar'
+    id 'maven-publish'
+}
+group = 'com.github.davidliu'
+
+android {
+    namespace 'com.github.davidliu.lkshadowwebrtc'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    afterEvaluate {
+        generateReleaseBuildConfig.enabled = false
+        generateDebugBuildConfig.enabled = false
+        generateReleaseResValues.enabled = false
+        generateDebugResValues.enabled = false
+    }
+}
+
+dependencies {
+    compileOnly project(path: ':android-prefixed:shadow', configuration: 'shadow')
+    embed project(path: ':android-prefixed:shadow', configuration: 'shadow')
+}
+
+def POM_ARTIFACT_ID = "android-prefixed"
+
+def getReleaseRepositoryUrl() {
+    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+def getRepositoryUsername() {
+    return hasProperty('nexusUsername') ? nexusUsername : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('nexusPassword') ? nexusPassword : ""
+}
+
+def configurePom(pom) {
+    pom.name = POM_NAME
+    pom.packaging = POM_PACKAGING
+    pom.description = POM_DESCRIPTION
+    pom.url = POM_URL
+
+    pom.scm {
+        url = POM_SCM_URL
+        connection = POM_SCM_CONNECTION
+        developerConnection = POM_SCM_DEV_CONNECTION
+    }
+
+    pom.licenses {
+        license {
+            name = POM_LICENCE_NAME
+            url = POM_LICENCE_URL
+            distribution = POM_LICENCE_DIST
+        }
+    }
+
+    pom.developers {
+        developer {
+            id = POM_DEVELOPER_ID
+            name = POM_DEVELOPER_NAME
+        }
+    }
+}
+
+afterEvaluate {
+
+    publishing {
+        repositories {
+            maven {
+                url getReleaseRepositoryUrl()
+                credentials(PasswordCredentials) {
+                    username = getRepositoryUsername()
+                    password = getRepositoryPassword()
+                }
+            }
+        }
+        publications {
+            androidPrefixed(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = VERSION_NAME
+                artifact("deploy/sources.jar") {
+                    classifier 'sources'
+                }
+                artifact("deploy/javadoc.jar") {
+                    classifier 'javadoc'
+                }
+                configurePom(pom)
+            }
+        }
+
+        signing {
+            publishing.publications.all { publication ->
+                sign publication
+            }
+        }
+    }
+}
