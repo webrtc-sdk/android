@@ -2,3 +2,4 @@ build/
 .gradle/
 .DS_Store
 *.asc
+local.properties

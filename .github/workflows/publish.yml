@@ -25,11 +25,15 @@ jobs:
         java-version: '12'
         distribution: 'adopt'
 
-    - name: Download aar
-      run: ./downloadAar.sh
+    - name: Download aars
+      run: |
+        ./downloadAar.sh
+        ./downloadAar_prefixed.sh
 
     - name: Check aar exists
-      run: test -f "libwebrtc.aar"
+      run: |
+        test -f "android/libwebrtc.aar"
+        test -f "android-prefixed/libwebrtc_prefixed.aar"
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew

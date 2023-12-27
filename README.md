@@ -10,6 +10,15 @@ This library is hosted on Maven Central. To include this library in your project
 
 ```gradle
   dependencies {
-    implementation 'io.github.webrtc-sdk:android:114.5735.05'
+    implementation 'io.github.webrtc-sdk:android:114.5735.06'
+  }
+```
+
+We also offer a shadowed version that moves the `org.webrtc` package to `livekit.org.webrtc`,
+avoiding any collisions with other WebRTC libraries:
+
+```gradle
+  dependencies {
+    implementation 'io.github.webrtc-sdk:android-prefixed:114.5735.06'
   }
 ```
