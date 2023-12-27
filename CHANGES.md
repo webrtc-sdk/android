@@ -1,6 +1,12 @@
 # Changelog
 
 --------------------------------------------
+
+[114.5735.07] - 2023.12.26
+
+* Upgrade to WebRTC-SDK M114.5735.07
+* Add a separate prefixed version of the WebRTC-SDK to avoid name collision
+
 [114.5735.05] - 2023.09.21
 
 * Upgrade to WebRTC-SDK M114.5735.05
