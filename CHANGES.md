@@ -1,6 +1,12 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.09] - 2024.04.03
+
+* Upgrade to WebRTC-SDK M114.5735.09
+* Fix external audio processor sample rate calculation
+* Allow ice gathering on any address ports
+
 [114.5735.08.1] - 2024.02.05
 
 * Upgrade to WebRTC-SDK M114.5735.08.1
