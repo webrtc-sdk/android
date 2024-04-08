@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.10] - 2024.04.08
+
+* Upgrade to WebRTC-SDK M114.5735.10
+* Feat: Add keyRingSize/discardFrameWhenCryptorNotReady to KeyProviderOptions.
+
 [114.5735.09] - 2024.04.03
 
 * Upgrade to WebRTC-SDK M114.5735.09
