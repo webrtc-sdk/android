@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[114.5735.11] - 2024.05.22
+
+* Upgrade to WebRTC-SDK M114.5735.11
+* Feat: Make audio output attributes modifiable.
+
 [114.5735.10] - 2024.04.08
 
 * Upgrade to WebRTC-SDK M114.5735.10
