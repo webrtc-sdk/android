@@ -1,6 +1,13 @@
 # Changelog
 
 --------------------------------------------
+[125.6422.03] - 2024.07.09
+
+* Upgrade to WebRTC-SDK M125.6422.03
+* Fix mic indicator not disappearing when muted.
+* Allow skipping AudioTrack playstate check through reflection.
+
+--------------------------------------------
 [125.6422.02] - 2024.06.15
 
 * Upgrade to WebRTC-SDK M125.6422.02
