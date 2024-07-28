@@ -1,4 +1,9 @@
 # Changelog
+--------------------------------------------
+[125.6422.04] - 2024.07.28
+
+* Upgrade to WebRTC-SDK M125.6422.04
+* Fix NetworkMonitor race condition when dispatching native observers
 
 --------------------------------------------
 [125.6422.03] - 2024.07.09
