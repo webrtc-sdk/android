@@ -1,5 +1,11 @@
 # Changelog
 --------------------------------------------
+[125.6422.05] - 2024.09.02
+
+* Upgrade to WebRTC-SDK M125.6422.05
+* Add isDisposed method to MediaStreamTrack
+
+--------------------------------------------
 [125.6422.04] - 2024.07.28
 
 * Upgrade to WebRTC-SDK M125.6422.04
