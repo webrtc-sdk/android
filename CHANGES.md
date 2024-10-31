@@ -1,5 +1,12 @@
 # Changelog
 --------------------------------------------
+[125.6422.06] - 2024.10.31
+
+* Upgrade to WebRTC-SDK M125.6422.06
+* Support for custom audio input
+* Support for audio tracks without using microphone
+
+--------------------------------------------
 [125.6422.05] - 2024.09.02
 
 * Upgrade to WebRTC-SDK M125.6422.05
