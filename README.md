@@ -10,7 +10,7 @@ This library is hosted on Maven Central. To include this library in your project
 
 ```gradle
   dependencies {
-    implementation 'io.github.webrtc-sdk:android:125.6422.07'
+    implementation 'io.github.webrtc-sdk:android:137.7151.00'
   }
 ```
 
@@ -19,6 +19,6 @@ avoiding any collisions with other WebRTC libraries:
 
 ```gradle
   dependencies {
-    implementation 'io.github.webrtc-sdk:android-prefixed:125.6422.07'
+    implementation 'io.github.webrtc-sdk:android-prefixed:137.7151.00'
   }
 ```
