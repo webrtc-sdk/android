@@ -1,4 +1,3 @@
-
 apply plugin: "maven-publish"
 apply plugin: 'signing'
 
@@ -7,7 +6,7 @@ def AAR_FILE = "libwebrtc.aar"
 
 def getReleaseRepositoryUrl() {
     return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            : "https://ossrh-staging-api.central.sonatype.com/service/local/"
 }
 
 def getRepositoryUsername() {

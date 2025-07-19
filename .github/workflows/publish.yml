@@ -58,8 +58,8 @@ jobs:
         NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
         NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-    - name: Publish to sonatype
-      run: ./gradlew publish
+    - name: Assemble
+      run: ./gradlew assemble
 
-    - name: Close and Release to maven
-      run: ./gradlew closeAndReleaseRepository
+    - name: Publish to sonatype
+      run: ./gradlew publishReleasePublicationToMavenRepository closeAndReleaseMavenStagingRepository -Dorg.gradle.parallel=false
