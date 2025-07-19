@@ -38,19 +38,6 @@ dependencies {
 
 def POM_ARTIFACT_ID = "android-prefixed"
 
-def getReleaseRepositoryUrl() {
-    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://ossrh-staging-api.central.sonatype.com/service/local/"
-}
-
-def getRepositoryUsername() {
-    return hasProperty('nexusUsername') ? nexusUsername : ""
-}
-
-def getRepositoryPassword() {
-    return hasProperty('nexusPassword') ? nexusPassword : ""
-}
-
 def configurePom(pom) {
     pom.name = POM_NAME
     pom.packaging = POM_PACKAGING
@@ -82,15 +69,6 @@ def configurePom(pom) {
 afterEvaluate {
 
     publishing {
-        repositories {
-            maven {
-                url getReleaseRepositoryUrl()
-                credentials(PasswordCredentials) {
-                    username = getRepositoryUsername()
-                    password = getRepositoryPassword()
-                }
-            }
-        }
         publications {
             androidPrefixed(MavenPublication) {
                 // Applies the component for the release build variant.

@@ -17,6 +17,11 @@ plugins {
 group = GROUP
 version = VERSION_NAME
 
+def getReleaseRepositoryUrl() {
+    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+            : "https://ossrh-staging-api.central.sonatype.com/service/local/"
+}
+
 def getRepositoryUsername() {
     return hasProperty('nexusUsername') ? nexusUsername : ""
 }
@@ -29,7 +34,7 @@ nexusPublishing {
     packageGroup = GROUP
     repositories {
         maven {
-            nexusUrl.set(uri(RELEASE_REPOSITORY_URL))
+            nexusUrl.set(uri(getReleaseRepositoryUrl()))
             username = getRepositoryUsername()
             password = getRepositoryPassword()
             stagingProfileId = STAGING_PROFILE_ID

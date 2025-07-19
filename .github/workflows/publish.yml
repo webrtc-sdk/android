@@ -64,4 +64,4 @@ jobs:
       run: ./gradlew assemble
 
     - name: Publish to sonatype
-      run: ./gradlew publishReleasePublicationToMavenRepository closeAndReleaseMavenStagingRepository -Dorg.gradle.parallel=false
+      run: ./gradlew publishAllPublicationsToMavenRepository closeAndReleaseMavenStagingRepository -Dorg.gradle.parallel=false
