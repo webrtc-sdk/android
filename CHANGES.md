@@ -1,4 +1,12 @@
 # Changelog
+--------------------------------------------
+[137.7151.05] - 2025.11.25
+
+* Upgrade to WebRTC-SDK M137.7151.05
+* Fixes noise suppression and echo cancelling not working.
+* Fixes microphone not turning off when muted.
+
+Corresponds to https://github.com/webrtc-sdk/webrtc/commit/624fa1dce239af785fc5fa9ca3b21b9250d3f835
 
 --------------------------------------------
 [137.7151.04] - 2025.09.09
