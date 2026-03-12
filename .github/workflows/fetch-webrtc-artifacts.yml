@@ -39,11 +39,8 @@ jobs:
             output_name: libwebrtc_prefixed_stripped.aar
             path_suffix: webrtc-android-prefixed-stripped
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v16
+        uses: dawidd6/action-download-artifact@v17
         with:
           run_id: ${{ inputs.run_id }}
           repo: ${{ inputs.repo }}
@@ -54,12 +51,25 @@ jobs:
       - name: Untar and extract libwebrtc.aar
         run: |
           mkdir -p ./aar-output
-          TAR=$(find ./artifacts/${{ matrix.path_suffix }} -name '${{ matrix.artifact_name }}' -type f | head -1)
-          tar -xzf "$TAR" -C ./artifacts/${{ matrix.path_suffix }}
-          cp "$(find ./artifacts/${{ matrix.path_suffix }} -name 'libwebrtc.aar' -type f | head -1)" ./aar-output/${{ matrix.output_name }}
+          ARTIFACT_DIR="./artifacts/${{ matrix.path_suffix }}"
+          # Downloaded artifact is named webrtc.tar.gz (not artifact_name)
+          TAR=$(find "$ARTIFACT_DIR" -name 'webrtc.tar.gz' -type f | head -1)
+          if [[ -z "$TAR" ]]; then
+            echo "No webrtc.tar.gz found under $ARTIFACT_DIR. Contents:"
+            find "$ARTIFACT_DIR" -type f -o -type d | head -50
+            exit 1
+          fi
+          tar -xzf "$TAR" -C "$ARTIFACT_DIR"
+          AAR=$(find "$ARTIFACT_DIR" -name 'libwebrtc.aar' -type f | head -1)
+          if [[ -z "$AAR" ]]; then
+            echo "No libwebrtc.aar found after extract. Contents:"
+            find "$ARTIFACT_DIR" -type f | head -50
+            exit 1
+          fi
+          cp "$AAR" ./aar-output/${{ matrix.output_name }}
 
       - name: Upload AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.output_name }}
           path: ./aar-output/${{ matrix.output_name }}
@@ -71,12 +81,13 @@ jobs:
     needs: fetch-artifacts
     steps:
       - name: Download all AARs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: ./aar-output
           merge-multiple: true
 
       - name: Create draft release and upload AARs
+        id: release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.release_tag }}
@@ -85,3 +96,7 @@ jobs:
             aar-output/*.aar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Link to draft release
+        run: |
+          echo "::notice title=Draft release ready::View draft release: ${{ steps.release.outputs.url }}"
