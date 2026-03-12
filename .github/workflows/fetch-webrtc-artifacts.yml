@@ -1,5 +1,5 @@
 # Fetches webrtc.android*.tar.gz artifacts from a workflow run in webrtc-sdk/webrtc-build.
-# Required: Add secret WEBRTC_BUILD_TOKEN (PAT with repo + actions:read on the source repo).
+# Required: secret WEBRTC_ARTIFACT_FETCH_TOKEN (PAT with repo + actions:read on the source repo).
 # Run ID: from the Actions run URL in webrtc-build, e.g. .../actions/runs/123456789
 name: Fetch WebRTC artifacts and create release
 
@@ -47,7 +47,7 @@ jobs:
           repo: ${{ inputs.repo }}
           name: ${{ matrix.artifact_name }}
           path: ./artifacts/${{ matrix.path_suffix }}
-          github_token: ${{ secrets.WEBRTC_BUILD_TOKEN }}
+          github_token: ${{ secrets.WEBRTC_ARTIFACT_FETCH_TOKEN }}
 
       - name: Untar and extract libwebrtc.aar
         run: |
