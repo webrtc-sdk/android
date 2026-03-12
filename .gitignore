@@ -3,3 +3,10 @@ build/
 .DS_Store
 *.asc
 local.properties
+.idea/
+.vscode/
+
+# Generated files when testing locally
+**/libs/classes.jar
+**/jniLibs/*
+libwebrtc*.aar

@@ -1,0 +1,83 @@
+# Fetches webrtc.android*.tar.gz artifacts from a workflow run in webrtc-sdk/webrtc-build.
+# Required: Add secret WEBRTC_BUILD_TOKEN (PAT with repo + actions:read on the source repo).
+# Run ID: from the Actions run URL in webrtc-build, e.g. .../actions/runs/123456789
+name: Fetch WebRTC artifacts and create release
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Workflow run ID from webrtc-sdk/webrtc-build (from the Actions run URL)'
+        required: true
+        type: string
+      repo:
+        description: 'Source repo (owner/repo) that produced the artifacts'
+        required: false
+        default: 'webrtc-sdk/webrtc-build'
+        type: string
+      release_tag:
+        description: 'Tag name for the draft release (e.g. v1.0.0 or webrtc-12345)'
+        required: true
+        type: string
+
+jobs:
+  fetch-artifacts:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - artifact_name: webrtc.android.tar.gz
+            output_name: libwebrtc.aar
+            path_suffix: webrtc-android
+          - artifact_name: webrtc.android_prefixed.tar.gz
+            output_name: libwebrtc_prefixed.aar
+            path_suffix: webrtc-android-prefixed
+          - artifact_name: webrtc.android_prefixed_stripped.tar.gz
+            output_name: libwebrtc_prefixed_stripped.aar
+            path_suffix: webrtc-android-prefixed-stripped
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v16
+        with:
+          run_id: ${{ inputs.run_id }}
+          repo: ${{ inputs.repo }}
+          name: ${{ matrix.artifact_name }}
+          path: ./artifacts/${{ matrix.path_suffix }}
+          github_token: ${{ secrets.WEBRTC_BUILD_TOKEN }}
+
+      - name: Untar and extract libwebrtc.aar
+        run: |
+          mkdir -p ./aar-output
+          TAR=$(find ./artifacts/${{ matrix.path_suffix }} -name '${{ matrix.artifact_name }}' -type f | head -1)
+          tar -xzf "$TAR" -C ./artifacts/${{ matrix.path_suffix }}
+          cp "$(find ./artifacts/${{ matrix.path_suffix }} -name 'libwebrtc.aar' -type f | head -1)" ./aar-output/${{ matrix.output_name }}
+
+      - name: Upload AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output_name }}
+          path: ./aar-output/${{ matrix.output_name }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: fetch-artifacts
+    steps:
+      - name: Download all AARs
+        uses: actions/download-artifact@v4
+        with:
+          path: ./aar-output
+          merge-multiple: true
+
+      - name: Create draft release and upload AARs
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.release_tag }}
+          draft: true
+          files: |
+            aar-output/*.aar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
