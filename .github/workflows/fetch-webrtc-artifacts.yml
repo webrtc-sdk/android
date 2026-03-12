@@ -54,6 +54,7 @@ jobs:
       - name: Untar and extract libwebrtc.aar
         run: |
           mkdir -p ./aar-output
+          find ./artifacts/${{ matrix.path_suffix }}
           TAR=$(find ./artifacts/${{ matrix.path_suffix }} -name '${{ matrix.artifact_name }}' -type f | head -1)
           tar -xzf "$TAR" -C ./artifacts/${{ matrix.path_suffix }}
           cp "$(find ./artifacts/${{ matrix.path_suffix }} -name 'libwebrtc.aar' -type f | head -1)" ./aar-output/${{ matrix.output_name }}
