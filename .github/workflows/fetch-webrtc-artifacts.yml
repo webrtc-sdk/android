@@ -87,6 +87,7 @@ jobs:
           merge-multiple: true
 
       - name: Create draft release and upload AARs
+        id: release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.release_tag }}
@@ -95,3 +96,7 @@ jobs:
             aar-output/*.aar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Link to draft release
+        run: |
+          echo "::notice title=Draft release ready::View draft release: ${{ steps.release.outputs.url }}"
