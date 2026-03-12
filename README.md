@@ -22,3 +22,11 @@ avoiding any collisions with other WebRTC libraries:
     implementation 'io.github.webrtc-sdk:android-prefixed:137.7151.05'
   }
 ```
+
+A stripped variant of the prefixed library (smaller size) is also available:
+
+```gradle
+  dependencies {
+    implementation 'io.github.webrtc-sdk:android-prefixed-stripped:137.7151.05'
+  }
+```

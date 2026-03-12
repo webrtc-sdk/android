@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 include ':android'
 include ':android-prefixed'
 include ':android-prefixed:shadow'
+include ':android-prefixed-stripped'
+include ':android-prefixed-stripped:shadow'
