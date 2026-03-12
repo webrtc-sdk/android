@@ -39,11 +39,8 @@ jobs:
             output_name: libwebrtc_prefixed_stripped.aar
             path_suffix: webrtc-android-prefixed-stripped
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v16
+        uses: dawidd6/action-download-artifact@v17
         with:
           run_id: ${{ inputs.run_id }}
           repo: ${{ inputs.repo }}
@@ -72,7 +69,7 @@ jobs:
           cp "$AAR" ./aar-output/${{ matrix.output_name }}
 
       - name: Upload AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.output_name }}
           path: ./aar-output/${{ matrix.output_name }}
@@ -84,7 +81,7 @@ jobs:
     needs: fetch-artifacts
     steps:
       - name: Download all AARs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: ./aar-output
           merge-multiple: true
