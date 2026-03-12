@@ -23,6 +23,8 @@ on:
 jobs:
   fetch-artifacts:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -64,6 +66,8 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: fetch-artifacts
     steps:
       - name: Download all AARs
