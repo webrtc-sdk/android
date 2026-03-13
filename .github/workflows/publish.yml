@@ -29,6 +29,7 @@ jobs:
       run: |
         ./downloadAar.sh
         ./downloadAar_prefixed.sh
+        ./downloadAar_prefixed_stripped.sh
 
     - name: Check required files exist
       run: |
@@ -38,6 +39,11 @@ jobs:
         test -f "android-prefixed/src/main/jniLibs/armeabi-v7a/liblkjingle_peerconnection_so.so"
         test -f "android-prefixed/src/main/jniLibs/x86/liblkjingle_peerconnection_so.so"
         test -f "android-prefixed/src/main/jniLibs/x86_64/liblkjingle_peerconnection_so.so"
+        test -f "android-prefixed-stripped/shadow/libs/classes.jar"
+        test -f "android-prefixed-stripped/src/main/jniLibs/arm64-v8a/liblkjingle_peerconnection_so.so"
+        test -f "android-prefixed-stripped/src/main/jniLibs/armeabi-v7a/liblkjingle_peerconnection_so.so"
+        test -f "android-prefixed-stripped/src/main/jniLibs/x86/liblkjingle_peerconnection_so.so"
+        test -f "android-prefixed-stripped/src/main/jniLibs/x86_64/liblkjingle_peerconnection_so.so"
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
