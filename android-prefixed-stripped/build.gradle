@@ -4,10 +4,9 @@ plugins {
     id 'com.kezong.fat-aar'
     id 'maven-publish'
 }
-group = 'com.github.webrtc-sdk'
 
 android {
-    namespace 'com.github.webrtc-sdk.android-prefixed-stripped'
+    namespace 'com.github.webrtcsdk.androidprefixedstripped'
     compileSdk 33
 
     defaultConfig {
