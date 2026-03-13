@@ -4,10 +4,9 @@ plugins {
     id 'com.kezong.fat-aar'
     id 'maven-publish'
 }
-group = 'com.github.davidliu'
 
 android {
-    namespace 'com.github.davidliu.lkshadowwebrtc'
+    namespace 'com.github.webrtcsdk.androidprefixed'
     compileSdk 33
 
     defaultConfig {
