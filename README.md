@@ -23,7 +23,7 @@ avoiding any collisions with other WebRTC libraries:
   }
 ```
 
-A stripped-down variant of the prefixed library (removing software video codecs and optimized) is also available:
+A stripped-down variant of the prefixed library (removing software video codecs and optimized for size instead of speed) is also available:
 
 ```gradle
   dependencies {
