@@ -1,5 +1,12 @@
 # Changelog
 --------------------------------------------
+[144.7559.04] - 2026.04.21
+
+* Upgrade to WebRTC-SDK M144.7559.04
+
+Corresponds to https://github.com/webrtc-sdk/webrtc/commit/597a7f4fb2c252c8d3c1d8d8144bfb730fbacaf2
+
+--------------------------------------------
 [144.7559.01] - 2026.3.13
 
 * Upgrade to WebRTC-SDK M144.7559.01
