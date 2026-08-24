@@ -6,30 +6,35 @@
 * Upgrade to WebRTC-SDK M144.7559.14
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/df1011beabae993c555f7c11a7a4b8e8fa62480d
+
 --------------------------------------------
 [144.7559.12] - 2026.08.12
 
 * Upgrade to WebRTC-SDK M144.7559.12
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/0bbf3dd72c44824f20b06f22b3e0fca133556e12
+
 --------------------------------------------
 [144.7559.09] - 2026.06.11
 
 * Upgrade to WebRTC-SDK M144.7559.09
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/b1800a61db8320af5c14456c13622d8b85b1ed39
+
 --------------------------------------------
 [144.7559.08] - 2026.06.09
 
 * Upgrade to WebRTC-SDK M144.7559.08
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/e4fcc85673a772cad32c232b46efc8f7acdfe007
+
 --------------------------------------------
 [144.7559.05] - 2026.04.30
 
 * Upgrade to WebRTC-SDK M144.7559.05
 
 Corresponds to https://github.com/webrtc-sdk/webrtc/commit/6c1aa903241e69eb2eca64caad16779351bb1ab2
+
 --------------------------------------------
 [144.7559.04] - 2026.04.21
 
