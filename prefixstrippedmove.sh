@@ -12,6 +12,11 @@ rm -rf android-prefixed-stripped/shadow/libs/*
 mkdir -p android-prefixed-stripped/shadow/libs
 mv prefix/classes.jar android-prefixed-stripped/shadow/libs/
 
+# WebRTC M150+ compiles the java sources with a JDK 21 target (class file major
+# version 65), which the shadow plugin's bundled ASM cannot read. Stamp the classes
+# back to Java 17 (major 61, what M144 shipped) before shadowing.
+python3 tools/downgrade_class_version.py android-prefixed-stripped/shadow/libs/classes.jar
+
 # Copy the .so files to the main project for inclusion.
 rm -rf android-prefixed-stripped/src/main/jniLibs/*
 mkdir -p android-prefixed-stripped/src/main/jniLibs
