@@ -1,8 +1,6 @@
 plugins {
     id 'java-library'
-    // 7.1.2 bundled an ASM too old to read the Java 21 (major 65) bytecode that
-    // libwebrtc's libwebrtc.jar ships since m150.
-    id 'com.gradleup.shadow' version '9.6.1'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 java {
@@ -15,8 +13,12 @@ dependencies {
 }
 
 shadowJar {
-    // Replaces the old ConfigureShadowRelocation task: prefix every package in
-    // the merged jar with "livekit".
-    enableAutoRelocation = true
-    relocationPrefix = "livekit"
+
 }
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "livekit" // Default value is "shadow"
+}
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
