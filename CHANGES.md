@@ -1,6 +1,11 @@
 # Changelog
 
 --------------------------------------------
+[150.7871.04] - 2026.08.31
+
+* Upgrade to WebRTC-SDK M150.7871.04
+* Addressing compromised eMudhra certs in libwebrtc."
+
 [144.7559.15] - 2026.09.05
 
 * Upgrade to WebRTC-SDK M144.7559.15
