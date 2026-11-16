@@ -1,0 +1,84 @@
+name: release
+
+# Runs when a release/<version> PR is merged: downloads the three aars and
+# their .shasum files from the webrtc-build release m<version>, verifies them,
+# publishes them as this repository's release v<version>, then runs
+# publish.yml (Maven Central), which downloads them from that release.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to (re)publish from the default branch'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  SOURCE_REPO: ${{ vars.SOURCE_REPO || 'webrtc-sdk/webrtc-build' }}
+
+jobs:
+  github-release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'release/'))
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.v.outputs.ref }}
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+    - name: Version
+      id: v
+      env:
+        INPUT: ${{ inputs.version || github.event.pull_request.head.ref }}
+      run: |
+        set -euo pipefail
+        VERSION="${INPUT#release/}"
+        PROP=$(sed -n 's/^VERSION_NAME=//p' gradle.properties)
+        [ "$PROP" = "$VERSION" ] || { echo "::error::VERSION_NAME $PROP != $VERSION"; exit 1; }
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+    - name: Download and verify aars
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VERSION: ${{ steps.v.outputs.version }}
+      run: |
+        set -euo pipefail
+        mkdir -p dist && cd dist
+        for f in libwebrtc.aar libwebrtc_prefixed.aar libwebrtc_prefixed_stripped.aar; do
+          gh release download "m$VERSION" -R "$SOURCE_REPO" -p "$f" -p "$f.shasum"
+        done
+        shasum -a 256 -c *.shasum
+    - name: Create release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VERSION: ${{ steps.v.outputs.version }}
+      run: |
+        set -euo pipefail
+        {
+          echo "WebRTC Android SDK $VERSION, built by [$SOURCE_REPO m$VERSION](https://github.com/$SOURCE_REPO/releases/tag/m$VERSION)."
+          echo
+          gh release view "m$VERSION" -R "$SOURCE_REPO" --json body --jq .body
+        } > "$RUNNER_TEMP/notes.md"
+        if gh release view "v$VERSION" >/dev/null 2>&1; then
+          gh release upload "v$VERSION" dist/* --clobber
+        else
+          gh release create "v$VERSION" dist/* --target "${{ steps.v.outputs.ref }}" --title "v$VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+        fi
+
+  publish:
+    needs: github-release
+    uses: ./.github/workflows/publish.yml
+    with:
+      ref: ${{ needs.github-release.outputs.ref }}
+    secrets: inherit
