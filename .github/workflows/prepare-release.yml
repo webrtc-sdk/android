@@ -25,6 +25,18 @@ jobs:
   open:
     runs-on: ubuntu-latest
     steps:
+    # Pushes and PRs made with a GitHub App token trigger workflows (the PR
+    # checks); GITHUB_TOKEN ones do not. Skipped when the App is not set up.
+    - name: Create GitHub App token
+      id: app
+      if: vars.RELEASE_APP_CLIENT_ID != ''
+      uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+      with:
+        client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+        private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+        permission-contents: write
+        permission-pull-requests: write
+        permission-issues: write
     - uses: actions/checkout@v5
     - name: Bump version
       env:
@@ -59,7 +71,7 @@ jobs:
         } > "$RUNNER_TEMP/body.md"
     - uses: peter-evans/create-pull-request@v7
       with:
-        token: ${{ secrets.RELEASE_TOKEN || github.token }}
+        token: ${{ steps.app.outputs.token || github.token }}
         branch: release/${{ env.VERSION }}
         commit-message: 'release: ${{ env.VERSION }}'
         title: 'release: ${{ env.VERSION }}'
