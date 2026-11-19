@@ -36,9 +36,23 @@ def main():
     args = p.parse_args()
 
     v = args.version
-    if not re.fullmatch(r'\d+\.\d+\.\d+', v):
-        raise SystemExit(f'invalid version {v!r}')
+    # Two-digit patch (150.7871.08, not 150.7871.8), as in webrtc-build.
+    if not re.fullmatch(r'\d+\.\d+\.(\d{2}|[1-9]\d{2,})', v):
+        raise SystemExit(f'invalid version {v!r}: expected <milestone>.<branch>.<patch> '
+                         'with a two-digit patch, e.g. 150.7871.08')
     path = lambda name: os.path.join(ROOT, name)
+
+    # A replayed notification for a release already on this branch (its
+    # release PR was merged) is a no-op: no file changes means no PR. An
+    # outstanding release PR is regenerated from the base branch, which does
+    # not have the version yet, so it is still updated.
+    with open(path('gradle.properties')) as f:
+        current = re.search(r'^VERSION_NAME=(.*)$', f.read(), re.M)
+    with open(path('CHANGES.md')) as f:
+        logged = re.search(rf'^\[{re.escape(v)}\] - ', f.read(), re.M)
+    if (current and current.group(1).strip() == v) or logged:
+        print(f'{v} is already prepared on this branch; nothing to do')
+        return
 
     sub(path('gradle.properties'), r'^VERSION_NAME=.*$', f'VERSION_NAME={v}', flags=re.M)
     for artifact in ARTIFACTS:
