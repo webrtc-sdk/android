@@ -21,6 +21,9 @@ permissions:
 concurrency:
   group: release
   cancel-in-progress: false
+  # Queue every waiting release: by default a newer run cancels the pending
+  # one, which would leave that merged release unpublished.
+  queue: max
 
 env:
   SOURCE_REPO: ${{ vars.SOURCE_REPO || 'webrtc-sdk/webrtc-build' }}
