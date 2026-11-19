@@ -1,0 +1,79 @@
+name: prepare-release
+
+# Opens release/<version> when webrtc-build publishes a release
+# (repository_dispatch `webrtc-release`), or by hand. The PR bumps
+# VERSION_NAME, README.md and CHANGES.md. Merging it runs release.yml.
+
+on:
+  repository_dispatch:
+    types: [webrtc-release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version, e.g. 150.7871.08 (webrtc-build release m<version> must exist)'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  SOURCE_REPO: ${{ github.event.client_payload.source_repo || vars.SOURCE_REPO || 'webrtc-sdk/webrtc-build' }}
+  VERSION: ${{ github.event.client_payload.version || inputs.version }}
+
+jobs:
+  open:
+    runs-on: ubuntu-latest
+    steps:
+    # Pushes and PRs made with a GitHub App token trigger workflows (the PR
+    # checks); GITHUB_TOKEN ones do not. Skipped when the App is not set up.
+    - name: Create GitHub App token
+      id: app
+      if: vars.RELEASE_APP_CLIENT_ID != ''
+      uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+      with:
+        client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+        private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+        permission-contents: write
+        permission-pull-requests: write
+        permission-issues: write
+    - uses: actions/checkout@v5
+    - name: Bump version
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        TAG="m$VERSION"
+        ASSETS=$(gh release view "$TAG" -R "$SOURCE_REPO" --json assets --jq '.assets[].name')
+        for f in libwebrtc.aar libwebrtc_prefixed.aar libwebrtc_prefixed_stripped.aar; do
+          for a in "$f" "$f.shasum"; do
+            grep -qx "$a" <<< "$ASSETS" || { echo "::error::$a missing from $SOURCE_REPO $TAG"; exit 1; }
+          done
+        done
+        # Built-from commit: first commit link in the release notes.
+        NOTES=$(gh release view "$TAG" -R "$SOURCE_REPO" --json body --jq .body)
+        COMMIT=$(grep -oE '/commit/[0-9a-f]{40}' <<< "$NOTES" | head -1 | cut -d/ -f3 || true)
+        WEBRTC_REPO=$(grep -oE 'https://github.com/[^/]+/[^/]+/commit/' <<< "$NOTES" | head -1 | cut -d/ -f4,5 || true)
+        python3 .github/scripts/prepare_release.py --version "$VERSION" --commit "$COMMIT" \
+          --webrtc-repo "${WEBRTC_REPO:-webrtc-sdk/webrtc}"
+        {
+          echo "Release WebRTC Android SDK $VERSION."
+          echo
+          echo "Binaries: [$SOURCE_REPO $TAG](https://github.com/$SOURCE_REPO/releases/tag/$TAG) (\`libwebrtc.aar\`, \`libwebrtc_prefixed.aar\`, \`libwebrtc_prefixed_stripped.aar\`)."
+          echo
+          echo "Merging publishes the GitHub release v$VERSION and the Maven artifacts."
+          echo
+          echo '<details><summary>webrtc changes</summary>'
+          echo
+          echo "$NOTES"
+          echo
+          echo '</details>'
+        } > "$RUNNER_TEMP/body.md"
+    - uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ steps.app.outputs.token || github.token }}
+        branch: release/${{ env.VERSION }}
+        commit-message: 'release: ${{ env.VERSION }}'
+        title: 'release: ${{ env.VERSION }}'
+        body-path: ${{ runner.temp }}/body.md
+        labels: release

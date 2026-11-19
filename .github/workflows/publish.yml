@@ -5,9 +5,36 @@ on:
     # only publish on version tags
     tags:
       - v*
+  # Called by release.yml after it created the v<version> release.
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Commit to publish'
+        type: string
+        required: true
 
 jobs:
+  # Forks and test copies have no signing/Nexus secrets: skip instead of
+  # failing, and never publish from them.
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.check.outputs.ok }}
+    steps:
+    - id: check
+      env:
+        NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        SIGNING_KEY_ARMOR: ${{ secrets.SIGNING_KEY_ARMOR }}
+      run: |
+        if [ -n "$NEXUS_USERNAME" ] && [ -n "$SIGNING_KEY_ARMOR" ]; then
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "::notice::Nexus/signing secrets not set; skipping Maven publish"
+        fi
+
   publish:
+    needs: check
+    if: needs.check.outputs.ok == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,6 +44,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         path: ./android
+        ref: ${{ inputs.ref || github.ref }}
         submodules: recursive
 
     # Gradle 9.x requires JVM 17 or later to run.
